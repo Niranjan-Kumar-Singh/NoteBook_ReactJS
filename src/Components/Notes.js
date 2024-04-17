@@ -1,27 +1,44 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import NoteContext from "../Context/notes/noteContext.js";
-import { useContext } from "react";
 import NoteItem from "./NoteItem.js";
 import AddNote from "./AddNote.js";
+import { useNavigate } from "react-router-dom";
 
-const Notes = () => {
+const Notes = (props) => {
   const context = useContext(NoteContext);
+  const navigate = useNavigate();
   const { notes, getNotes, editNote } = context;
-  // Fetching the data when the component loads for the first time
-  useEffect(() => {
-    getNotes();
-    // eslint-disable-next-line
-  }, []);
-
-  const ref = useRef(null);
-  const refClose = useRef(null);
-
   const [note, setNote] = useState({
     id: "",
     etitle: "",
     edescription: "",
     etag: "default",
   });
+
+  const ref = useRef(null);
+  const refClose = useRef(null);
+
+  const handleClick = (e) => {
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+    refClose.current.click();
+    props.showAlert("Updated Successfully", "success");
+  };
+
+  const onChange = (e) => {
+    setNote({ ...note, [e.target.name]: e.target.value });
+  };
+
+  // Fetching the data when the component loads for the first time
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+      getNotes();
+    }
+    else{
+      navigate("/login");
+    }
+
+    // eslint-disable-next-line
+  }, []);
 
   const updateNote = (currentNote) => {
     ref.current.click();
@@ -33,18 +50,9 @@ const Notes = () => {
     });
   };
 
-  const handleClick = (e) => {
-    editNote(note.id, note.etitle, note.edescription, note.etag);
-    refClose.current.click();
-  };
-
-  const onChange = (e) => {
-    setNote({ ...note, [e.target.name]: e.target.value });
-  };
-
   return (
     <>
-      <AddNote />
+      <AddNote showAlert={props.showAlert} />
 
       <button
         ref={ref}
@@ -148,7 +156,7 @@ const Notes = () => {
         {notes.length === 0 && <p className="mx-2">No notes yet.</p>}
         {notes.map((note) => {
           return (
-            <NoteItem key={note._id} updateNote={updateNote} note={note} />
+            <NoteItem key={note._id} updateNote={updateNote} showAlert={props.showAlert} note={note} />
           );
         })}
       </div>
