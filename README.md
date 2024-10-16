@@ -7,7 +7,6 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Demo](#demo)
-  - [Live Link](#live-link)
   - [Screenshot](#screenshot)
   - [GIF Demo](#gif-demo)
 - [Technologies Used](#technologies-used)
@@ -31,10 +30,6 @@
 - **Local Storage:** Notes are saved in the browser's local storage for easy access.
 
 ## Demo
-
-### Live Link
-
-Check out the live version of the application [here](YOUR_LIVE_LINK_HERE).
 
 ### Screenshot
 
@@ -87,7 +82,7 @@ Check out the live version of the application [here](YOUR_LIVE_LINK_HERE).
    npm run both
    ```
 
-   The application will run on `http://localhost:3000`.
+   The application will run on `http://localhost:3000` & on `http://localhost:5000`
 
 ## Usage
 
